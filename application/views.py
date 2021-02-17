@@ -10,9 +10,27 @@ def main(request):
     return render(request,'main.html')
 
 def index(request):
+    context = {}
     # if not request.user.is_authenticated:
     #     return redirect("login")
-    return render(request, 'main.html')
+    if request.method == "POST":
+        n = int(request.POST.get("n"))
+        k = int(request.POST.get("k"))
+        d = int(request.POST.get("d"))
+        q = int(request.POST.get("q"))
+        if "form-steps" in request.POST:
+            form_step = request.POST.get("form-steps")
+            if form_step and form_step != "":   
+                if form_step == "specifying-parameters":
+                    context['response'] = {
+                        "n": n,
+                        "k": k,
+                        "d": d,
+                        "q": q,
+                        "sum": n + k + d + q
+                    }
+
+    return render(request, 'main.html', context)
 
 # function for signup
 

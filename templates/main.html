@@ -5,17 +5,37 @@
 
 
 <body>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalTitle">Result</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="myContent">
+                    <!--Modal content-->
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                    <button type="button" class="btn btn-info" data-dismiss="modal" aria-label="Close">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
   
 
     <div class="container py-4">
         <div class="card">
             <!--tips: add .text-center,.text-right to the .card to change card text alignment-->
             <div class="card-body px-0 py-5">
-                <form action="/">
+                <form method="POST"  action="/">
+                    {% csrf_token %}
                     <div class="row px-0 mx-0">
                         <div class="col-sm-12 bg-sss text-dark py-3">
                             <div class="custom-control custom-radio">
-                                <input class="custom-control-input" type="radio" name="exampleRadios" id="exampleRadio1" value="option1" checked>
+                                <input class="custom-control-input" type="radio" name="form-steps" id="form-steps" value="specifying-parameters" checked>
                                 <label class="custom-control-label" for="exampleRadio1">
                                     Specifying parameters
                                 </label>
@@ -58,7 +78,7 @@
                     <div class="row px-0 mx-0">
                         <div class="col-sm-12 bg-sss text-dark py-3">
                             <div class="custom-control custom-radio">
-                                <input class="custom-control-input" type="radio" name="exampleRadios" id="exampleRadio2" value="option2">
+                                <input class="custom-control-input" type="radio" name="form-steps" id="form-steps" value="input-code">
                                 <label class="custom-control-label" for="exampleRadio2">
                                     Input code
                                 </label>
@@ -77,14 +97,14 @@
                         <div class="col-sm-3">
                             <div class="form-control d-flex">
                                 <label>q&nbsp;=</label>
-                                <input class="border-0 p-0 m-0 my-input ml-2" type="number" name="q" value="q">
+                                <input class="border-0 p-0 m-0 my-input ml-2" type="number" name="iq" value="q">
                             </div> 
                         </div>
 
                         <div class="col-sm-3">
                             <div class="form-control d-flex">
                                 <label>p&nbsp;=</label>
-                                <input class="border-0 p-0 m-0 my-input ml-2" type="number" name="p" value="p">
+                                <input class="border-0 p-0 m-0 my-input ml-2" type="number" name="ip" value="p">
                             </div> 
                         </div>
                     </div>
@@ -188,4 +208,16 @@
        
         
     </div>
+
+<script>
+    var result = "{{ response | safe }}";
+
+    if (result.length > 0) {
+        // alert(result);
+        $("#myContent").text(result);
+        $("#myModal").modal("show");
+    }
+    // console.log(result);
+</script>
+
 </body>
