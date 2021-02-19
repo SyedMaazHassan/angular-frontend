@@ -47,8 +47,8 @@ def index(request):
                     ip = int(request.POST.get("ip"))
                     iq = int(request.POST.get("iq"))
                     context['response'] = {
-                        "q": iq,
-                        "p": ip,
+                        "iq": iq,
+                        "ip": ip,
                         "sum": ip + iq
                     }
 
