@@ -2,7 +2,14 @@
     <div class="container pt-3">
         <!-- <i class="material-icons mb-3 float-left text-info bg-white mr-3" style="border-radius: 100%; padding:5px; font-size:30px; cursor: pointer;" title="Go back" onclick="window.history.back()">keyboard_arrow_left</i> -->
         <div class="float-left mt-1 text-white">
-            <h4>SIMULATION TABLES</h4>
+            <!-- <h4>SIMULATION TABLES</h4> -->
+            <a href="">
+                <button type="button" class="btn bg-white text-info">SIMULATOR</button>
+            </a>
+            
+            <a href="tables">
+                <button type="button" class="btn bg-white text-info mx-2">TABLES</button>
+            </a>
         </div>
         <div class="float-right">
             {% if user.is_authenticated %}

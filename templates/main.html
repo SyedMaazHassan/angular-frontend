@@ -30,38 +30,38 @@
         <div class="card">
             <!--tips: add .text-center,.text-right to the .card to change card text alignment-->
             <div class="card-body px-0 py-5">
-                <form method="POST"  action="/">
+                <form method="POST"  action="/" id="main-form" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="row px-0 mx-0">
                         <div class="col-sm-12 bg-sss text-dark py-3">
                             <div class="custom-control custom-radio">
-                                <input class="custom-control-input" type="radio" name="form-steps" id="form-steps" value="specifying-parameters" checked>
-                                <label class="custom-control-label" for="exampleRadio1">
+                                <input class="custom-control-input" type="radio" name="form-steps" id="form-steps" value="specifying-parameters" {{specifyingParameters}} required>
+                                <label class="custom-control-label" for="form-steps">
                                     Specifying parameters
                                 </label>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row my-2 p-3">
+                    <div class="row my-2 p-3 collapse" id="form-step-1-input-code">
                         <div class="col-sm-3">
                             <div class="form-control d-flex">
                                 <label>n&nbsp;=</label>
-                                <input class="border-0 p-0 m-0 my-input ml-2" type="number" name="n" value="n">
+                                <input class="border-0 p-0 m-0 my-input ml-2" type="number" name="n" id="n" value="{{ response.n }}">
                             </div> 
                         </div>
 
                         <div class="col-sm-3">
                             <div class="form-control d-flex">
                                 <label>k&nbsp;=</label>
-                                <input class="border-0 p-0 m-0 my-input ml-2" type="number" name="k" value="k">
+                                <input class="border-0 p-0 m-0 my-input ml-2" type="number" name="k" id="k" value="{{ response.k }}">
                             </div> 
                         </div>
 
                         <div class="col-sm-3">
                             <div class="form-control d-flex">
                                 <label>d&nbsp;=</label>
-                                <input class="border-0 p-0 m-0 my-input ml-2" type="number" name="d" value="d">
+                                <input class="border-0 p-0 m-0 my-input ml-2" type="number" name="d" id="d" value="{{ response.d }}">
                             </div> 
                         </div>
 
@@ -70,51 +70,55 @@
                         <div class="col-sm-3">
                             <div class="form-control d-flex">
                                 <label>q&nbsp;=</label>
-                                <input class="border-0 p-0 m-0 my-input ml-2" type="number" name="q" value="q">
+                                <input class="border-0 p-0 m-0 my-input ml-2" type="number" name="q" id="q" value="{{ response.q }}">
                             </div> 
                         </div>
                     </div>
 
-                    <div class="row px-0 mx-0">
+                    <div class="row px-0 mx-0 my-3">
                         <div class="col-sm-12 bg-sss text-dark py-3">
                             <div class="custom-control custom-radio">
-                                <input class="custom-control-input" type="radio" name="form-steps" id="form-steps" value="input-code">
-                                <label class="custom-control-label" for="exampleRadio2">
+                                <input class="custom-control-input" type="radio" name="form-steps" id="form-steps2" value="input-code" {{inputCode}} required>
+                                <label class="custom-control-label" for="form-steps2">
                                     Input code
                                 </label>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row my-2 p-3">
+                    <div class="row my-2 p-3 collapse" id="form-step-2-input-code">
                         <div class="col-sm-6">
                             <div class="form-control d-flex">
                                 <label>Upload&nbsp;file&nbsp;&nbsp;</label>
-                                <input type="file" class="form-control-file my-0 py-0" id="exampleInput">
+                                <input type="file" class="form-control-file my-0 py-0" name="myTxtFile" id="myTxtFile">
                             </div> 
                         </div>
 
                         <div class="col-sm-3">
                             <div class="form-control d-flex">
                                 <label>q&nbsp;=</label>
-                                <input class="border-0 p-0 m-0 my-input ml-2" type="number" name="iq" value="q">
+                                <input class="border-0 p-0 m-0 my-input ml-2" type="number" value="{{response.q}}" name="iq" id="iq">
                             </div> 
                         </div>
 
                         <div class="col-sm-3">
                             <div class="form-control d-flex">
                                 <label>p&nbsp;=</label>
-                                <input class="border-0 p-0 m-0 my-input ml-2" type="number" name="ip" value="p">
+                                <input class="border-0 p-0 m-0 my-input ml-2" type="number" name="ip" value="{{response.p}}" id="ip">
                             </div> 
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group py-2">
+                                <textarea class="form-control mt-3" id="exampleInput" rows="3" placeholder="Box to copy / paste write code">{{ file_content }}</textarea>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-group py-2 p-3">
-                        <textarea class="form-control" id="exampleInput" rows="3" placeholder="Box to copy / paste write code"></textarea>
-                    </div>
+              
 
 
-                    <div class="row py-2 p-3 bg-sss px-0 mx-0">
+                    <div class="row py-2 p-3 bg-sss px-0 mx-0 my-3">
                         <div class="col-sm-4 d-flex">
                             <div class="form-check" style="margin: auto;">
                                 <input class="form-check-input" type="radio" name="form-radio" value="canonical" checked>
@@ -149,7 +153,7 @@
                         <div class="col-sm-4"></div>
 
                         <div class="col-sm-4 px-5 text-center">
-                            <button type="submit" class="btn btn-primary" style="width: 220px;">Run</button>
+                            <button type="submit" class="btn btn-success" style="width: 220px;">Run</button>
                         </div>
 
                         <div class="col-sm-4"></div>
@@ -166,7 +170,7 @@
                                     <div class="row mt-0 py-2 pt-0 p-3">
                                         <div class="col-sm-12">
                                             <div class="form-group mt-0">
-                                                <textarea class="form-control" id="exampleInput" rows="2" placeholder="Result"></textarea>
+                                                <textarea class="form-control" id="myResults" rows="2" placeholder="Result"></textarea>
                                             </div>
                                         </div>
                                         
@@ -179,7 +183,7 @@
                                         </div>
                                     </div>
 
-                                    <button type="submit" class="btn btn-success" style="width: 220px;">Download</button>
+                                    <button type="submit" class="btn btn-primary" style="width: 220px;">Download</button>
 
                                 </div>
                             </div>
@@ -213,11 +217,49 @@
     var result = "{{ response | safe }}";
 
     if (result.length > 0) {
-        // alert(result);
-        $("#myContent").text(result);
-        $("#myModal").modal("show");
+        console.log(result);
+        $("#myResults").text(result);
+
+        if ("{{specifyingParameters}}".length > 0) {
+            $("#form-step-1-input-code").collapse("show");
+            $("#n, #k, #d, #q").prop('required', true);
+            $("#myTxtFile, #ip, #iq").prop('required', false);
+        }
+
+        if ("{{inputCode}}".length > 0) {
+            $("#form-step-2-input-code").collapse("show");
+            $("#myTxtFile, #ip, #iq").prop('required', true);
+            $("#n, #k, #d, #q").prop('required', false);
+        }
+
     }
-    // console.log(result);
+
+    $("input[name='form-steps']").on('change', function () {
+        if ($(this).val() == "input-code") {
+            $("#form-step-2-input-code").collapse("show");
+            $("#myTxtFile, #ip, #iq").prop('required', true);
+            $("#n, #k, #d, #q").prop('required', false);
+            $("#form-step-1-input-code").collapse("hide");
+        }else{
+            $("#form-step-1-input-code").collapse("show");
+            $("#myTxtFile, #ip, #iq").prop('required', false);
+            $("#n, #k, #d, #q").prop('required', true);
+            $("#form-step-2-input-code").collapse("hide");
+        }
+    });
+
+
+    // $("#main-form").on("submit", function () {
+    //     // let selected_step = $("#form-steps2").prop('checked');
+    //     // let selected_step = $("#form-steps2").val('checked');
+
+
+    //     return false;
+    // });
+
+
+
+
 </script>
 
 </body>

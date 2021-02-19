@@ -3,7 +3,13 @@ from .models import *
 from django.contrib import messages
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.conf import settings
 import json
+import os
+
+
+def tables(request):
+    return render(request, "table.html")
 
 # main page function
 def main(request):
@@ -14,14 +20,14 @@ def index(request):
     # if not request.user.is_authenticated:
     #     return redirect("login")
     if request.method == "POST":
-        n = int(request.POST.get("n"))
-        k = int(request.POST.get("k"))
-        d = int(request.POST.get("d"))
-        q = int(request.POST.get("q"))
         if "form-steps" in request.POST:
             form_step = request.POST.get("form-steps")
             if form_step and form_step != "":   
                 if form_step == "specifying-parameters":
+                    n = int(request.POST.get("n"))
+                    k = int(request.POST.get("k"))
+                    d = int(request.POST.get("d"))
+                    q = int(request.POST.get("q"))
                     context['response'] = {
                         "n": n,
                         "k": k,
@@ -29,6 +35,37 @@ def index(request):
                         "q": q,
                         "sum": n + k + d + q
                     }
+
+                    context["specifyingParameters"] = "checked" if (form_step == "specifying-parameters") else ""
+                
+                elif form_step == "input-code":
+                    myTxtFile = request.FILES.get("myTxtFile")
+
+                    new_file = txtFile(name = myTxtFile)
+                    new_file.save()
+
+                    ip = int(request.POST.get("ip"))
+                    iq = int(request.POST.get("iq"))
+                    context['response'] = {
+                        "q": iq,
+                        "p": ip,
+                        "sum": ip + iq
+                    }
+
+                    context["inputCode"] = "checked" if (form_step == "input-code") else ""
+
+                    project_path = settings.BASE_DIR
+                    file_path = os.path.join(project_path, "media")
+                    file_path = os.path.join(file_path, str(new_file.name))
+
+                    with open(file_path) as myFile:
+                        file_content = myFile.read().splitlines()
+                        file_content = " ".join(file_content)
+                        context['file_content'] = file_content
+                        print(file_content)
+
+                    myFile.close()
+
 
     return render(request, 'main.html', context)
 
