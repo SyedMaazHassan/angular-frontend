@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
+from .RanGen import *
+from .InpCode import *
 from django.contrib import messages
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -28,14 +30,7 @@ def index(request):
                     k = int(request.POST.get("k"))
                     d = int(request.POST.get("d"))
                     q = int(request.POST.get("q"))
-                    context['response'] = {
-                        "n": n,
-                        "k": k,
-                        "d": d,
-                        "q": q,
-                        "sum": n + k + d + q
-                    }
-
+                    context['response'] = alltogether(n, k, d, q)
                     context["specifyingParameters"] = "checked" if (form_step == "specifying-parameters") else ""
                 
                 elif form_step == "input-code":
@@ -46,12 +41,14 @@ def index(request):
 
                     ip = int(request.POST.get("ip"))
                     iq = int(request.POST.get("iq"))
-                    context['response'] = {
-                        "iq": iq,
-                        "ip": ip,
-                        "sum": ip + iq
-                    }
 
+                    # this is the selected radio option from 
+                    # 1. concial
+                    # 2. invariant
+                    # 3. model p code
+                    form_radio = request.POST.get("form-radio")
+                    print(form_radio)
+                    
                     context["inputCode"] = "checked" if (form_step == "input-code") else ""
 
                     project_path = settings.BASE_DIR
@@ -60,8 +57,12 @@ def index(request):
 
                     with open(file_path) as myFile:
                         file_content = myFile.read().splitlines()
-                        file_content = " ".join(file_content)
+                        file_content = json.loads(" ".join(file_content))
                         context['file_content'] = file_content
+                        answers = alltogetherInp(file_content, iq, ip)
+                        context['response'] = answers[0]
+                        context['distance'] = answers[1]
+                        context['preserved'] = answers[2]
                         print(file_content)
 
                     myFile.close()
